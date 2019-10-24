@@ -26,7 +26,7 @@ namespace CustomAuthorizeAttribute
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            //Registering Custom Auth Policy Provider and Permission Handler
             services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, A2AuthorizePermissionHandler>();
 

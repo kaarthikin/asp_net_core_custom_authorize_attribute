@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomAuthorizeAttribute.Approach2
 {
+    //The actual logic of Authorize Attribute is defined in Handler. 
     public class A2AuthorizePermissionHandler : AuthorizationHandler<A2AuthorizePermissionRequirement>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, A2AuthorizePermissionRequirement requirement)
@@ -25,10 +26,14 @@ namespace CustomAuthorizeAttribute.Approach2
             {
                 if (assignedPermissionsForUser.Contains(x))
                 {
+                    //context.Succeed authorize's the user. 
+                    //Note: If multiple authorize attributes are available, if you want the user to be authorized in both the all the attributes, then dont set the context.success here. Just return task completed
+                    //setting context.succeed here will not take the control next attribute, it will be marked as authorized in all lower level attributes.
                     context.Succeed(requirement);
                     return Task.CompletedTask;
                 }  
             }
+            //Setting user as not authorized
             context.Fail();
             return Task.CompletedTask;
         }

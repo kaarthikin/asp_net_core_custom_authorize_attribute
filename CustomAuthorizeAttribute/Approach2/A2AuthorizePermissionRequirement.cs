@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace CustomAuthorizeAttribute.Approach2
 {
+    //IAuthorizationRequirement is needed for creating AuthorizationHandler
+    //and also when dynalically creating policy, object are created only for requirement which inturn invokes the AuthorizationHandler
     public class A2AuthorizePermissionRequirement: IAuthorizationRequirement
     {
         public string Permissions { get; private set; }

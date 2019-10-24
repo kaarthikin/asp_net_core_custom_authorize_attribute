@@ -15,14 +15,18 @@ namespace CustomAuthorizeAttribute.Approach2
 
         public CustomAuthPolicyProvider(IOptions<AuthorizationOptions> options)
         {
+            //Initializing default policy provider.
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
 
         public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
         {
+            //If A1Authorize attribute is used in controller, and if this CustomAuthPolicyProvider is registered in startup.cs
+            //When A1Authorize attribute is invoked, this function will be called.
             return FallbackPolicyProvider.GetDefaultPolicyAsync();
         }
 
+        //This method will be called by the asp.net core pipeline only when Authorize Attribute has Policy Property set
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
             try
@@ -30,15 +34,18 @@ namespace CustomAuthorizeAttribute.Approach2
                 //All custom policies created by us will have " : " as delimiter to identify policy name and values
                 //Any delimiter or character can be choosen, and it is upto user choice
 
-                var policy = policyName.Split(":").FirstOrDefault();
+                var policy = policyName.Split(":").FirstOrDefault(); //Name for policy and values are set in A2AuthorizePermission Attribute
                 var attributeValue= policyName.Split(":").LastOrDefault();
 
                 if (policy!=null)
                 {
+                    //Dynamically building the AuthorizationPolicy and adding the respective requirement based on the policy names which we define in Authroize Attribute.
                     var policyBuilder = new AuthorizationPolicyBuilder();
 
                     if (policy == "CustomAuthPermissionPolicy")
                     {
+                        //Authorize Hanlders are created based on Authroize Requirement type.
+                        //Adding the object of A2AuthorizePermissionRequirement will invoke the A2AuthorizePermissionHandler
                         policyBuilder.AddRequirements(new A2AuthorizePermissionRequirement(attributeValue));
                         return Task.FromResult(policyBuilder.Build());
                     }

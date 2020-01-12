@@ -16,10 +16,10 @@ namespace CustomAuthorizeAttribute.Approach1
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            //Validation if any permissions is given as input from controller
+            //Validate if any permissions are passed when using attribute at controller or action level
             if (string.IsNullOrEmpty(Permissions))
             {
-                //Without any permissions validation cannot take place, so returning unauthorized
+                //Validation cannot take place without any permissions so returning unauthorized
                 context.Result = new UnauthorizedResult();
                 return;
             }

@@ -2,7 +2,7 @@
 
 The authorize attribute is used to authorize or control user access to application/controller/actions in Asp. Net Core. The built in **[Authorize]** attribute might not be suitable for all business cases where we must come up with our own implementation. 
 
-The code here has implemented custom authorization in two different approaches.
+The code here has implements custom authorization in two different approaches.
 1. Extending **AuthorizeAttribute** along with **IAuthorizationFilter**
 2. **Creating Custom Authorization Policy Provider** with Authorization Handler, Authorization Requirement and an Authorize Attribute
 
